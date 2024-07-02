@@ -44,13 +44,14 @@ export interface DropZoneProps {
   parentId?: string;
   childId?: string;
   isLeaf?: boolean;
+  tabIndex?: number;
 }
 
 const AddIcon = bundleIcon(ArrowBetweenDown24Filled, ArrowBetweenDown24Regular);
 const ParallelIcon = bundleIcon(ArrowSplit24Filled, ArrowSplit24Regular);
 const ClipboardIcon = bundleIcon(ClipboardPasteFilled, ClipboardPasteRegular);
 
-export const DropZone: React.FC<DropZoneProps> = ({ graphId, parentId, childId, isLeaf = false }) => {
+export const DropZone: React.FC<DropZoneProps> = ({ graphId, parentId, childId, isLeaf = false, tabIndex }) => {
   const intl = useIntl();
   const dispatch = useDispatch<AppDispatch>();
   const [showCallout, setShowCallout] = useState(false);
@@ -325,11 +326,11 @@ export const DropZone: React.FC<DropZoneProps> = ({ graphId, parentId, childId, 
               <PopoverTrigger disableButtonEnhancement>
                 <div tabIndex={-1}>
                   <ActionButtonV2
-                    tabIndex={1}
                     id={buttonId}
                     title={tooltipText}
                     dataAutomationId={automationId('plus')}
                     onClick={actionButtonClick}
+                    tabIndex={tabIndex}
                   />
                 </div>
               </PopoverTrigger>

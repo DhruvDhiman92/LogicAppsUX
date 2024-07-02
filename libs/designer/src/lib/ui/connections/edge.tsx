@@ -18,6 +18,7 @@ interface EdgeContentProps {
   parentId?: string;
   childId?: string;
   isLeaf?: boolean;
+  tabIndex?: number;
 }
 
 const EdgeContent = (props: EdgeContentProps) => (
@@ -30,7 +31,7 @@ const EdgeContent = (props: EdgeContentProps) => (
     requiredExtensions="http://www.w3.org/1999/xhtml"
   >
     <div style={{ padding: '4px' }}>
-      <DropZone graphId={props.graphId} parentId={props.parentId} childId={props.childId} isLeaf={props.isLeaf} />
+      <DropZone graphId={props.graphId} parentId={props.parentId} childId={props.childId} isLeaf={props.isLeaf} tabIndex={props.tabIndex} />
     </div>
   </foreignObject>
 );

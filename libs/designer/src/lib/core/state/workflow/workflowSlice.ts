@@ -65,6 +65,7 @@ export const initialWorkflowState: WorkflowState = {
   hostData: {
     errorMessages: {},
   },
+  tabIndex: 1,
 };
 
 export const workflowSlice = createSlice({

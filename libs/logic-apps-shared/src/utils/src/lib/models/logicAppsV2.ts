@@ -688,6 +688,7 @@ export interface Operation {
   metadata?: any;
   operationOptions?: string;
   runtimeConfiguration?: any;
+  tabIndex?: number;
 }
 
 export type TriggerDefinition =

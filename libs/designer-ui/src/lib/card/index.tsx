@@ -47,6 +47,7 @@ export interface CardProps {
   runData?: LogicAppsV2.WorkflowRunAction | LogicAppsV2.WorkflowRunTrigger;
   setFocus?: boolean;
   isSecureInputsOutputs?: boolean;
+  tabIndex?: number;
 }
 
 export interface BadgeProps {
@@ -90,6 +91,7 @@ export const Card: React.FC<CardProps> = ({
   runData,
   setFocus,
   isSecureInputsOutputs,
+  tabIndex,
 }) => {
   const handleClick: React.MouseEventHandler<HTMLElement> = (e) => {
     e.stopPropagation();
@@ -184,7 +186,7 @@ export const Card: React.FC<CardProps> = ({
         onClick={handleClick}
         onContextMenu={contextMenu.handle}
         onKeyDown={keyboardInteraction.keyDown}
-        tabIndex={2}
+        tabIndex={tabIndex ?? 0}
         onKeyUp={keyboardInteraction.keyUp}
       >
         {isMonitoringView ? (

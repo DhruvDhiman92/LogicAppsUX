@@ -33,8 +33,8 @@ export const addNodeToWorkflow = (
   const { graphId, parentId, childId } = relationshipIds;
 
   // Add Node Data
-  const workflowNode: WorkflowNode = createWorkflowNode(newNodeId);
-
+  const workflowNode: WorkflowNode = createWorkflowNode(newNodeId, undefined, state.tabIndex);
+  state.tabIndex += 1;
   // Handle Extra node addition if is a scope operation
   if (isScopeOperation(operation.type)) {
     handleExtraScopeNodeSetup(operation, workflowNode, nodesMetadata, state);
@@ -50,7 +50,9 @@ export const addNodeToWorkflow = (
   const parentNodeId = graphId !== 'root' ? graphId : undefined;
   nodesMetadata[newNodeId] = { graphId, parentNodeId, isRoot };
 
-  state.operations[newNodeId] = { ...state.operations[newNodeId], type: operation.type };
+  state.operations[newNodeId] = { ...state.operations[newNodeId], type: operation.type, tabIndex: workflowNode.tabIndex };
+  const currOPerations = state.operations[newNodeId];
+  console.log(currOPerations);
   state.newlyAddedOperations[newNodeId] = newNodeId;
   state.isDirty = true;
 
@@ -110,12 +112,15 @@ const createSubgraphNode = (
   id: string,
   subgraphType: SubgraphType,
   location: string,
-  nodesMetadata: NodesMetadata
+  nodesMetadata: NodesMetadata,
+  state: WorkflowState
 ) => {
-  const node = createWorkflowNode(id, WORKFLOW_NODE_TYPES.SUBGRAPH_NODE);
+  const node = createWorkflowNode(id, WORKFLOW_NODE_TYPES.SUBGRAPH_NODE, state.tabIndex);
+  state.tabIndex += 1;
   node.subGraphLocation = location;
   addChildNode(parent, node);
-  const graphHeading = createWorkflowNode(`${id}-#subgraph`, WORKFLOW_NODE_TYPES.SUBGRAPH_CARD_NODE);
+  const graphHeading = createWorkflowNode(`${id}-#subgraph`, WORKFLOW_NODE_TYPES.SUBGRAPH_CARD_NODE, state.tabIndex);
+  state.tabIndex += 1;
   addChildNode(node, graphHeading);
   nodesMetadata[id] = {
     graphId: parent.id,
@@ -123,7 +128,8 @@ const createSubgraphNode = (
     actionCount: 0,
     parentNodeId: parent.id === 'root' ? undefined : parent.id,
   };
-  addChildEdge(parent, createWorkflowEdge(`${parent.id}-#scope`, node.id, WORKFLOW_EDGE_TYPES.ONLY_EDGE));
+  addChildEdge(parent, createWorkflowEdge(`${parent.id}-#scope`, node.id, WORKFLOW_EDGE_TYPES.ONLY_EDGE, state.tabIndex));
+  state.tabIndex += 1;
 };
 
 const handleExtraScopeNodeSetup = (
@@ -145,8 +151,8 @@ const handleExtraScopeNodeSetup = (
 
   // Handle CONDITIONALS
   if (operation.type.toLowerCase() === CONSTANTS.NODE.TYPE.IF) {
-    createSubgraphNode(node, `${node.id}-actions`, SUBGRAPH_TYPES.CONDITIONAL_TRUE, 'actions', nodesMetadata);
-    createSubgraphNode(node, `${node.id}-elseActions`, SUBGRAPH_TYPES.CONDITIONAL_FALSE, 'else', nodesMetadata);
+    createSubgraphNode(node, `${node.id}-actions`, SUBGRAPH_TYPES.CONDITIONAL_TRUE, 'actions', nodesMetadata, state);
+    createSubgraphNode(node, `${node.id}-elseActions`, SUBGRAPH_TYPES.CONDITIONAL_FALSE, 'else', nodesMetadata, state);
     state.operations[node.id] = {
       ...(getRecordEntry(state.operations, node.id) ?? ({} as any)),
       actions: {},
@@ -173,7 +179,7 @@ const handleExtraScopeNodeSetup = (
     addChildEdge(node, addCaseEdge);
 
     // DEFAULT GRAPH
-    createSubgraphNode(node, `${node.id}-defaultCase`, SUBGRAPH_TYPES.SWITCH_DEFAULT as any, 'default', nodesMetadata);
+    createSubgraphNode(node, `${node.id}-defaultCase`, SUBGRAPH_TYPES.SWITCH_DEFAULT as any, 'default', nodesMetadata, state);
 
     state.operations[node.id] = {
       ...(getRecordEntry(state.operations, node.id) ?? ({} as any)),

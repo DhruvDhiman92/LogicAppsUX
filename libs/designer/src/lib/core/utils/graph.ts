@@ -44,34 +44,38 @@ export const DEFAULT_NODE_SIZE = {
 
 // Creating generic layout nodes and edges below
 
-export const createWorkflowNode = (id: string, type?: WorkflowNodeType): WorkflowNode => ({
+export const createWorkflowNode = (id: string, type?: WorkflowNodeType, tabIndex?: number): WorkflowNode => ({
   id,
   ...DEFAULT_NODE_SIZE,
   type: type ?? WORKFLOW_NODE_TYPES.OPERATION_NODE,
+  tabIndex: tabIndex,
 });
 
-export const createElkNode = (id: string, type?: WorkflowNodeType): ElkNode => ({
+export const createElkNode = (id: string, type?: WorkflowNodeType, tabIndex?: number): ElkNode => ({
   id,
   ...DEFAULT_NODE_SIZE,
   layoutOptions: {
     nodeType: type ?? WORKFLOW_NODE_TYPES.OPERATION_NODE,
   },
+  tabIndex: tabIndex,
 });
 
-export const createWorkflowEdge = (source: string, target: string, type?: WorkflowEdgeType): WorkflowEdge => ({
+export const createWorkflowEdge = (source: string, target: string, type?: WorkflowEdgeType, tabIndex?: number): WorkflowEdge => ({
   id: `${source}-${target}`,
   source,
   target,
   type: type ?? WORKFLOW_EDGE_TYPES.BUTTON_EDGE,
+  tabIndex: tabIndex,
 });
 
-export const createElkEdge = (source: string, target: string, type?: WorkflowEdgeType): ElkExtendedEdge => ({
+export const createElkEdge = (source: string, target: string, type?: WorkflowEdgeType, tabIndex?: number): ElkExtendedEdge => ({
   id: `${source}-${target}`,
   sources: [source],
   targets: [target],
   layoutOptions: {
     edgeType: type ?? WORKFLOW_EDGE_TYPES.BUTTON_EDGE,
   },
+  tabIndex: tabIndex,
 });
 
 export const getUpstreamNodeIds = (

@@ -43,6 +43,7 @@ import {
   useShouldNodeFocus,
   useParentRunId,
   useIsLeafNode,
+  useTabIndex,
 } from '../../core/state/workflow/workflowSelectors';
 import { setRepetitionRunData } from '../../core/state/workflow/workflowSlice';
 import { getRepetitionName } from '../common/LoopsPager/helper';
@@ -174,6 +175,7 @@ const DefaultNode = ({ targetPosition = Position.Top, sourcePosition = Position.
   const isConnectionRequired = useIsConnectionRequired(operationInfo);
   const isLeaf = useIsLeafNode(id);
   const label = useNodeDisplayName(id);
+  const tab = useTabIndex(id);
 
   const showLeafComponents = useMemo(() => !readOnly && isLeaf, [readOnly, isLeaf]);
 
@@ -351,6 +353,7 @@ const DefaultNode = ({ targetPosition = Position.Top, sourcePosition = Position.
             setFocus={shouldFocus}
             staticResultsEnabled={!!staticResults}
             isSecureInputsOutputs={isSecureInputsOutputs}
+            tabIndex={tab}
           />
           <Tooltip
             positioning={{ target: rootRef.current, position: 'below', align: 'end' }}

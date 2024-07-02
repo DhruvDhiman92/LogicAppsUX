@@ -9,6 +9,7 @@ export interface WorkflowNode {
   edges?: WorkflowEdge[]; // Graph nodes only
   height?: number; // Action nodes only
   width?: number; // Action Nodes only
+  tabIndex?: number;
 }
 
 export interface WorkflowEdge {
@@ -16,6 +17,7 @@ export interface WorkflowEdge {
   source: string;
   target: string;
   type: WorkflowEdgeType;
+  tabIndex?: number;
 }
 
 export const isWorkflowNode = (node: WorkflowNode) =>

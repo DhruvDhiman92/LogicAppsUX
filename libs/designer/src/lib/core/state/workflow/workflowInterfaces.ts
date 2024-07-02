@@ -49,4 +49,5 @@ export interface WorkflowState {
   hostData: {
     errorMessages: Partial<Record<MessageLevel, ErrorMessage[]>>;
   };
+  tabIndex: number;
 }

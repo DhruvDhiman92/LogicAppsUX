@@ -24,6 +24,7 @@ interface SubgraphCardProps {
   contextMenuItems?: JSX.Element[];
   errorLevel?: MessageBarType;
   errorMessage?: string;
+  tabIndex?: number;
 }
 
 export const SubgraphCard: React.FC<SubgraphCardProps> = ({
@@ -40,6 +41,7 @@ export const SubgraphCard: React.FC<SubgraphCardProps> = ({
   contextMenuItems = [],
   errorLevel,
   errorMessage,
+  tabIndex,
 }) => {
   const intl = useIntl();
 
@@ -58,7 +60,7 @@ export const SubgraphCard: React.FC<SubgraphCardProps> = ({
     }
     return (
       <div style={{ display: 'grid', placeItems: 'center', width: '100%', height: '100%' }}>
-        <ActionButtonV2 title={addCaseLabel} onClick={() => onClick?.()} />
+        <ActionButtonV2 title={addCaseLabel} onClick={() => onClick?.()} tabIndex={tabIndex} />
       </div>
     );
   }

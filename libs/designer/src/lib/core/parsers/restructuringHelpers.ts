@@ -15,7 +15,9 @@ export const addNewEdge = (state: WorkflowState, source: string, target: string,
     source,
     target,
     type: WORKFLOW_EDGE_TYPES.BUTTON_EDGE,
+    tabIndex: state.tabIndex,
   };
+  state.tabIndex += 1;
   if (!graph?.edges) {
     graph.edges = [];
   }
